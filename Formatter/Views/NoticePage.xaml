@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Page
+    x:Class="Formatter.Views.NoticePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winUi="using:CommunityToolkit.WinUI"
+    mc:Ignorable="d"
+    Width="auto">
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3,5*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Right" Spacing="26" Margin="20, 5, 7, 20">
+            <TextBlock
+                FontSize="18"
+                Text="Название файла:" />
+            <TextBlock
+                Text="Извещение от"
+                Margin="0,10,0,0" />
+            <TextBlock Text="Номер договора:" />
+            <TextBlock Text="Наименование изделия" />
+            <TextBlock Text="Количество" />
+            <TextBlock Text="Заводской номер" />
+            <TextBlock Text="Инвентарный номер" />
+            <TextBlock Text="Дата ПСИ" />
+        </StackPanel>
+        <Button
+            Grid.Column="0"
+            Height="45"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Background="Green"
+            Command="{x:Bind ViewModel.ConfirmCommand}"
+            Content="Подтвердить"
+            Margin="20" />
+        <StackPanel
+            Grid.Column="1"
+            HorizontalAlignment="Left"
+            Spacing="16"
+            Margin="7, 20, 20, 20">
+            <TextBox
+                Width="300"
+                FontSize="18"
+                HorizontalAlignment="Left"
+                Text="{x:Bind ViewModel.FileName, Mode=TwoWay}" />
+            <TextBox
+                Width="150"
+                HorizontalAlignment="Left"
+                winUi:TextBoxExtensions.Mask="99.99.9999"
+                Text="{x:Bind ViewModel.NoticeDate, Mode=TwoWay}"
+                Margin="0,10,0,0" />
+            <StackPanel
+                HorizontalAlignment="Left"
+                Orientation="Horizontal"
+                Spacing="10">
+                <TextBox
+                    Width="150"
+                    Text="{x:Bind ViewModel.ContractNumber, Mode=TwoWay}" />
+                <TextBlock Text="от" />
+                <TextBox
+                    Width="140"
+                    winUi:TextBoxExtensions.Mask="99.99.9999"
+                    Text="{x:Bind ViewModel .ContractDate, Mode=TwoWay}" />
+            </StackPanel>
+            <ComboBox
+                Width="150"
+                IsEditable="True"
+                HorizontalAlignment="Left"
+                ItemsSource="{x:Bind ViewModel .DetailNamesArray}"
+                Text="{x:Bind ViewModel.DetailName, Mode=TwoWay}" />
+            <NumberBox
+                Width="150"
+                HorizontalAlignment="Left"
+                Text="{x:Bind ViewModel.DetailCount}" />
+            <TextBox
+                Width="150"
+                HorizontalAlignment="Left"
+                Text="{x:Bind ViewModel.SerialNumber, Mode=TwoWay}" />
+            <TextBox
+                Width="150"
+                HorizontalAlignment="Left"
+                Text="{x:Bind ViewModel.InventoryNumber, Mode=TwoWay}" />
+            <TextBox
+                Width="150"
+                HorizontalAlignment="Left"
+                Text="{x:Bind ViewModel.PSIDate}" />
+        </StackPanel>
+    </Grid>
+</Page>
