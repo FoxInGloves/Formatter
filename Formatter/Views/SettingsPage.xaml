@@ -9,6 +9,35 @@
     mc:Ignorable="d"
     Width="auto">
     <Grid>
-        
+        <StackPanel>
+            <TextBlock
+                FontSize="24"
+                Text="Настройки" />
+            <TextBlock
+                Text="Выбери где будут располагаться созданные файлы"
+                Margin="0, 20,0,0" />
+            <StackPanel
+                Orientation="Horizontal"
+                Margin="0,5,0,0">
+                <TextBox
+                    Height="30"
+                    Width="auto"
+                    MinWidth="200"
+                    IsReadOnly="True"
+                    Text="{x:Bind ViewModel.FolderPath, Mode=TwoWay}" />
+                <Button
+                    Content="Выбрать"
+                    Background="#0f7fd6"
+                    Command="{x:Bind ViewModel.OpenFolderDialogCommand}"
+                    Margin="10,0,0,0" />
+            </StackPanel>
+        </StackPanel>
+        <Button
+            Height="45"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom"
+            Background="Green"
+            Content="Сохранить"
+            Command="{x:Bind ViewModel.SaveSettingsCommand}" />
     </Grid>
 </Page>

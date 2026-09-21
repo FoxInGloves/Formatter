@@ -1,13 +1,11 @@
+using System.Text.Json;
+using Formatter.Models;
 using Formatter.Services;
 using Formatter.ViewModels;
 using Formatter.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
+using LaunchActivatedEventArgs = Microsoft.UI.Xaml.LaunchActivatedEventArgs;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -53,9 +51,17 @@ public partial class App : Application
         
         serviceCollection.AddTransient<MainWindowViewModel>();
         serviceCollection.AddTransient<NoticePageViewModel>();
+        serviceCollection.AddTransient<SettingsPageViewModel>();
         
         serviceCollection.AddSingleton<INavigationService, NavigationService>();
-        
+
+        var directory = AppDomain.CurrentDomain.BaseDirectory;
+        var filePath = $"{directory}AppSettings.json";
+
+        var readJson = File.ReadAllText(filePath);
+        var appSettings = JsonSerializer.Deserialize<AppSettings>(readJson);
+        serviceCollection.AddSingleton<AppSettings>(appSettings);
+
         Services = serviceCollection.BuildServiceProvider();
     }
 

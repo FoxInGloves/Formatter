@@ -35,15 +35,4 @@ public sealed partial class MainWindow : Window
         // Navigate the root frame to the main page on startup.
         navigationService.Navigate(typeof(NoticePage));
     }
-
-    public void NavViewSectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-    {
-        if (args.SelectedItem is not NavigationViewItem item)
-            return;
-
-
-        ViewModel.NavigateToTag(item.Tag.ToString());
-    }
-}
-
 }
