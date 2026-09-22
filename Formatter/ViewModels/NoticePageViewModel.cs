@@ -27,7 +27,7 @@ public partial class NoticePageViewModel : ObservableObject
     public NoticePageViewModel()
     {
         var directory = AppDomain.CurrentDomain.BaseDirectory;
-        document = DocX.Load($@"{directory}\DocumentTemplates\1.docx");
+        document = DocX.Load($@"{directory}\DocumentTemplates\Notice.docx");
     }
 
     [ObservableProperty] public partial string? FileName { get; set; }
@@ -72,26 +72,26 @@ public partial class NoticePageViewModel : ObservableObject
         var formating = new Formatting();
         formating.Highlight = Highlight.red;
 
-        document.ReplaceText("{{ДатаПИполн}}", NoticeDate, false, RegexOptions.None, formating);
-        document.ReplaceText("{{ДатаПИ}}", NoticeDate.Remove(5, 5), false, RegexOptions.None, formating);
+        document.ReplaceText("{{ДатаПИполн}}", NoticeDate);
+        document.ReplaceText("{{ДатаПИ}}", NoticeDate.Remove(5, 5));
 
-        document.ReplaceText("{{Номер договора}}", ContractNumber, false, RegexOptions.None, formating);
-        document.ReplaceText("{{ДатаОт}}", ContractDate, false, RegexOptions.None, formating);
+        document.ReplaceText("{{Номер договора}}", ContractNumber);
+        document.ReplaceText("{{ДатаОт}}", ContractDate);
         var contractDay = ContractDate.Substring(0, 2);
         var contractMonth = ContractDate.Substring(3, 2);
         var contractYear = ContractDate.Substring(8, 2);
-        document.ReplaceText("{{День договора}}", contractDay, false, RegexOptions.None, formating);
-        document.ReplaceText("{{Месяц договора}}", contractMonth, false, RegexOptions.None, formating);
-        document.ReplaceText("{{Год договора}}", contractYear, false, RegexOptions.None, formating);
+        document.ReplaceText("{{День договора}}", contractDay);
+        document.ReplaceText("{{Месяц договора}}", contractMonth);
+        document.ReplaceText("{{Год договора}}", contractYear);
 
-        document.ReplaceText("{{Название детали}}", DetailName, false, RegexOptions.None, formating);
-        document.ReplaceText("{{Количество}}", DetailCount.ToString, false, RegexOptions.None, formating);
-        document.ReplaceText("{{Заводской номер}}", SerialNumber, false, RegexOptions.None, formating);
-        document.ReplaceText("{{Инвентарный номер}}", InventoryNumber, false, RegexOptions.None, formating);
+        document.ReplaceText("{{Название детали}}", DetailName);
+        document.ReplaceText("{{Количество}}", DetailCount.ToString);
+        document.ReplaceText("{{Заводской номер}}", SerialNumber);
+        document.ReplaceText("{{Инвентарный номер}}", InventoryNumber);
         
-        document.ReplaceText("{{ДатаПСИполн}}", PSIDate, false, RegexOptions.None, formating);
-        document.ReplaceText("{{ДатаПСИ}}", PSIDate.Remove(5, 5), false, RegexOptions.None, formating);
-        document.ReplaceText("{{НомерПСИ}}", PSINumber, false, RegexOptions.None, formating);
+        document.ReplaceText("{{ДатаПСИполн}}", PSIDate);
+        document.ReplaceText("{{ДатаПСИ}}", PSIDate.Remove(5, 5));
+        document.ReplaceText("{{НомерПСИ}}", PSINumber);
         
         if (string.IsNullOrEmpty(FileName))
         {
@@ -107,58 +107,4 @@ public partial class NoticePageViewModel : ObservableObject
 
         document.SaveAs($"{appSettings.PathForSaveDocument}/{FileName}.docx");
     }
-
-
-    /*public void ReplaceTextInWord(string filePath, string targetText, string replacementText)
-    {
-        var appSettings = App.Services.GetRequiredService<AppSettings>();
-
-        using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
-        {
-            XWPFDocument doc = new XWPFDocument(file);
-
-            // Обходим все параграфы в документе
-            foreach (var paragraph in doc.Paragraphs)
-            {
-                ReplaceInParagraph(paragraph, targetText, replacementText);
-            }
-
-            // Также можно пройти по таблицам, если текст находится в них
-            foreach (var table in doc.Tables)
-            {
-                foreach (var row in table.Rows)
-                {
-                    foreach (var cell in row.GetTableCells())
-                    {
-                        foreach (var paragraph in cell.Paragraphs)
-                        {
-                            ReplaceInParagraph(paragraph, targetText, replacementText);
-                        }
-                    }
-                }
-            }
-
-            // Сохраняем изменения в тот же файл или новый
-            using (FileStream outStream = new FileStream($"{appSettings.PathForSaveDocument}/{FileName}.doc", FileMode.Create, FileAccess.Write))
-            {
-                doc.Write(outStream);
-            }
-        }
-    }
-
-    private void ReplaceInParagraph(XWPFParagraph paragraph, string targetText, string replacementText)
-    {
-        // Проверяем, содержит ли параграф искомый текст
-        if (paragraph.Text.Contains(targetText))
-        {
-            foreach (var run in paragraph.Runs)
-            {
-                string text = run.ToString();
-                if (text.Contains(targetText))
-                {
-                    run.SetText(text.Replace(targetText, replacementText), 0);
-                }
-            }
-        }
-    }*/
 }

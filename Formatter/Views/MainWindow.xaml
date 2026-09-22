@@ -43,7 +43,11 @@
                             Tag="{x:Bind TargetPageType}"
                             Content="{x:Bind Title}">
                             <NavigationViewItem.Icon>
-                                <FontIcon Glyph="{x:Bind IconGlyph}" />
+                                <ImageIcon>
+                                    <ImageIcon.Source>
+                                        <SvgImageSource UriSource="../Assets/Icons/notice.svg"/>
+                                    </ImageIcon.Source>
+                                </ImageIcon>
                             </NavigationViewItem.Icon>
                         </NavigationViewItem>
                     </DataTemplate>

@@ -38,6 +38,7 @@
             VerticalAlignment="Bottom"
             Background="Green"
             Content="Сохранить"
-            Command="{x:Bind ViewModel.SaveSettingsCommand}" />
+            Command="{x:Bind ViewModel.SaveSettingsCommand}" 
+            Margin="20"/>
     </Grid>
 </Page>

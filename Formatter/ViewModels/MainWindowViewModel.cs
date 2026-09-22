@@ -25,7 +25,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
 
         NavigationItems = new ObservableCollection<NavigationItem>
         {
-            new() { Title = "Извещения", IconGlyph = "\uE80F", TargetPageType = typeof(NoticePage) }
+            new() { Title = "Извещения", IconGlyph = "\uE6C2", TargetPageType = typeof(NoticePage) }
         };
 
         _selectedMenuItem = NavigationItems[0];
@@ -33,7 +33,6 @@ public sealed partial class MainWindowViewModel : ObservableObject
     
     public void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        // 1. Проверяем, кликнули ли на настройки
         if (args.IsSettingsInvoked)
         {
             SelectedMenuItem = null;
@@ -41,14 +40,11 @@ public sealed partial class MainWindowViewModel : ObservableObject
             return;
         }
 
-        // 2. Если это обычный пункт меню
         if (args.InvokedItemContainer is NavigationViewItem invokedItem && 
             invokedItem.Tag is Type targetPageType)
         {
-            // Синхронизируем подсветку выбранного пункта во ViewModel
             SelectedMenuItem = NavigationItems.FirstOrDefault(m => m.TargetPageType == targetPageType);
             
-            // Выполняем навигацию
             _navigationService.Navigate(targetPageType);
         }
     }
