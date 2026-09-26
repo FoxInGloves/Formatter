@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Formatter.Models;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Formatter.ViewModels;
 
@@ -31,18 +32,20 @@ public partial class SettingsPageViewModel : ObservableObject
 
         var folder = await folderPicker.PickSingleFolderAsync();
         FolderPath = folder.Path;
+        Log.Information("FolderPath set to {value}", FolderPath);
     }
 
     [RelayCommand]
     private void SaveSettings()
     {
         var currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        //var directoryToFile = currentDirectory.Replace("ViewModels", "");
         var filePath = $"{currentDirectory}/AppSettings.json";
        
         _appSettings.PathForSaveDocument = FolderPath;
         
         var jsonString = JsonSerializer.Serialize(_appSettings, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(filePath, jsonString);
+        
+        Log.Information("Settings saved to {filePath}", filePath);
     }
 }

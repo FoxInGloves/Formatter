@@ -12,9 +12,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
 {
     private readonly INavigationService _navigationService;
 
-    [ObservableProperty] private NavigationItem _selectedMenuItem;
-
-    [ObservableProperty] private bool _isSettingsSelected;
+    [ObservableProperty] public partial NavigationItem? SelectedMenuItem { get; set; }
 
     public ObservableCollection<NavigationItem> NavigationItems { get; }
 
@@ -23,12 +21,12 @@ public sealed partial class MainWindowViewModel : ObservableObject
     {
         _navigationService = navigationService;
 
-        NavigationItems = new ObservableCollection<NavigationItem>
-        {
-            new() { Title = "Извещения", IconGlyph = "\uE6C2", TargetPageType = typeof(NoticePage) }
-        };
+        NavigationItems =
+        [
+            new NavigationItem { Title = "Документы", TargetPageType = typeof(DocumentsPage) }
+        ];
 
-        _selectedMenuItem = NavigationItems[0];
+        SelectedMenuItem = NavigationItems[0];
     }
     
     public void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -40,8 +38,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
             return;
         }
 
-        if (args.InvokedItemContainer is NavigationViewItem invokedItem && 
-            invokedItem.Tag is Type targetPageType)
+        if (args.InvokedItemContainer is NavigationViewItem { Tag: Type targetPageType })
         {
             SelectedMenuItem = NavigationItems.FirstOrDefault(m => m.TargetPageType == targetPageType);
             

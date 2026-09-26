@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Page
+    x:Class="Formatter.Views.DocumentsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winUi="using:CommunityToolkit.WinUI"
+    xmlns:services="using:Formatter.Services"
+    mc:Ignorable="d"
+    Width="auto">
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+        </Style>
+
+        <DataTemplate x:Key="FieldNameTemplate">
+            <TextBlock Text="{Binding FieldName}"
+                       Margin="0,0,0,26.5" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="TextFieldTemplate">
+            <StackPanel Margin="0,16,0,0">
+                <TextBox
+                    Text="{Binding Value, Mode=TwoWay}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NumberFieldTemplate">
+            <StackPanel Margin="0,5">
+                <TextBlock
+                    Text="{Binding FullName}"
+                    Margin="0,0,0,4" />
+
+                <NumberBox
+                    Value="{Binding Value, Mode=TwoWay}" />
+            </StackPanel>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="BooleanFieldTemplate">
+            <CheckBox
+                Content="{Binding FullName}"
+                IsChecked="{Binding BoolValue, Mode=TwoWay}"
+                Margin="0,5" />
+        </DataTemplate>
+
+
+        <services:FieldTemplateSelector
+            x:Key="FieldTemplateSelector"
+            TextTemplate="{StaticResource TextFieldTemplate}"
+            NumberTemplate="{StaticResource NumberFieldTemplate}"
+            BooleanTemplate="{StaticResource BooleanFieldTemplate}" />
+    </Page.Resources>
+
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <StackPanel
+                    VerticalAlignment="Top"
+                    Margin="20,0,0,0">
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        Text="Выберите расположение редактируемого файла" />
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Margin="0,5,0,0">
+                        <TextBox
+                            Height="30"
+                            Width="auto"
+                            MinWidth="200"
+                            IsReadOnly="True"
+                            Text="{x:Bind ViewModel.PathToFile, Mode=TwoWay}" />
+                        <Button
+                            Content="Выбрать"
+                            Background="#0f7fd6"
+                            Command="{x:Bind ViewModel.OpenFileDialogCommand}"
+                            Margin="10,0,0,0" />
+                    </StackPanel>
+                    <TextBlock
+                        Text="{x:Bind ViewModel.ErrorText, Mode=OneWay}"
+                        Foreground="Red" />
+                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+                                Spacing="27"
+                                HorizontalAlignment="Right"
+                                Margin="0, 53, 7, 0">
+
+                        <TextBlock
+                            Visibility="{x:Bind ViewModel.IsFileSelected, Mode=OneWay}"
+                            FontSize="18"
+                            Text="Название файла:" />
+
+                        <ItemsRepeater
+                            ItemsSource="{x:Bind ViewModel.Fields}"
+                            ItemTemplate="{StaticResource FieldNameTemplate}"
+                            Margin="0,12,0,0" />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        Margin="7, 50, 0, 0">
+                        <TextBox
+                            Visibility="{x:Bind ViewModel.IsFileSelected, Mode=OneWay}"
+                            Width="300"
+                            FontSize="18"
+                            HorizontalAlignment="Left"
+                            Text="{x:Bind ViewModel.FileName, Mode=TwoWay}" />
+
+                        <ItemsRepeater
+                            ItemsSource="{x:Bind ViewModel.Fields}"
+                            ItemTemplate="{StaticResource FieldTemplateSelector}"
+                            Margin="0,10,0,0" />
+                    </StackPanel>
+                </Grid>
+                <Button
+                    Height="45"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Background="Green"
+                    IsEnabled="{x:Bind ViewModel.IsFileSelected, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsFileSelected, Mode=OneWay}"
+                    Command="{x:Bind ViewModel.ConfirmCommand}"
+                    Content="Подтвердить"
+                    Margin="20" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

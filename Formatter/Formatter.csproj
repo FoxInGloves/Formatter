@@ -2,7 +2,8 @@
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
-        <WindowsPackageType>None</WindowsPackageType>
+        <WindowsPackageType>MSIX</WindowsPackageType>
+        <EnableMsixTooling>true</EnableMsixTooling>
         <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
         <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
         <RootNamespace>Formatter</RootNamespace>
@@ -12,40 +13,34 @@
         <PublishProfile Condition="Exists('Properties\PublishProfiles\win-$(Platform).pubxml')">win-$(Platform).pubxml</PublishProfile>
         <UseWinUI>true</UseWinUI>
         <WinUISDKReferences>false</WinUISDKReferences>
-        <EnableMsixTooling>true</EnableMsixTooling>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
-        <!--<Content Include="Assets\SplashScreen.scale-200.png"/>
-        <Content Include="Assets\LockScreenLogo.scale-200.png"/>
-        <Content Include="Assets\Square150x150Logo.scale-200.png"/>
-        <Content Include="Assets\Square44x44Logo.scale-200.png"/>
-        <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png"/>
-        <Content Include="Assets\Square44x44Logo.targetsize-48_altform-lightunplated.png"/>
-        <Content Include="Assets\AppIcon.ico"/>
-        <Content Include="Assets\Wide310x150Logo.scale-200.png"/>-->
-        <Content Update="Assets\AppIcon.ico">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        </Content>
-        <None Remove="DocumentTemplates\1.docx" />
         <Content Update="Assets\44x44AppIcon.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
         <None Remove="DocumentTemplates\Notice.docx" />
-        <Content Include="DocumentTemplates\Notice.docx">
+        <Content Update="Assets\AppIcon.ico">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Content Update="Assets\AppIcon.ico">
+        <Content Update="Assets\AppIcon.png">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="Assets\Icons\notice.svg">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Update="Assets\44x44AppIcon.targetsize-44_altform-unplated.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 
     <ItemGroup>
-        <Manifest Include="$(ApplicationManifest)"/>
+        <Manifest Include="$(ApplicationManifest)" />
     </ItemGroup>
 
     <!--
@@ -54,7 +49,7 @@
       package has not yet been restored.
     -->
     <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-        <ProjectCapability Include="Msix"/>
+        <ProjectCapability Include="Msix" />
     </ItemGroup>
 
     <!--
@@ -69,14 +64,17 @@
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
         <PackageReference Include="DocX" Version="5.2.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705"/>
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003"/>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="0.3.1"/>
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7705" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260317003" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="0.3.1" />
+        <PackageReference Include="Serilog" Version="4.4.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     </ItemGroup>
     <ItemGroup>
       <None Remove="AppSettings.json" />
       <EmbeddedResource Include="AppSettings.json">
+         <!--<ExcludeFromSingleFile>true</ExcludeFromSingleFile>-->
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </EmbeddedResource>
       <None Update="Package.appxmanifest">
@@ -85,7 +83,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Assets\Icons\" />
-      <Folder Include="DocumentTemplates\" />
     </ItemGroup>
 
     <!--
@@ -102,6 +99,6 @@
         <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
         <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
         <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
-        <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+        <!--<PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>-->
     </PropertyGroup>
 </Project>

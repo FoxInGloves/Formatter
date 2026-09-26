@@ -3,6 +3,7 @@ using Formatter.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Serilog;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -32,7 +33,13 @@ public sealed partial class MainWindow : Window
 
         AppWindow.SetIcon("Assets/AppIcon.ico");
 
-        // Navigate the root frame to the main page on startup.
-        navigationService.Navigate(typeof(NoticePage));
+        navigationService.Navigate(typeof(DocumentsPage));
+
+        Closed += MainWindow_Closed;
+    }
+    
+    private static void MainWindow_Closed(object sender, WindowEventArgs args)
+    {
+        Log.CloseAndFlush();
     }
 }

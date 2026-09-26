@@ -24,14 +24,10 @@
                 <ImageIconSource ImageSource="/Assets/AppIcon.png" />
             </TitleBar.IconSource>
         </TitleBar>
-
-        <!--
-            The Frame hosts pages for your application content. Add your UI to
-            MainPage.xaml rather than here so you can use Page features such as
-            navigation events and the Loaded lifecycle.
-        -->
+        
         <Grid Grid.Row="1">
             <NavigationView 
+                IsPaneOpen="False"
                 IsBackEnabled="False"
                 IsBackButtonVisible="Collapsed"
                 MenuItemsSource="{x:Bind ViewModel.NavigationItems, Mode=OneWay}"

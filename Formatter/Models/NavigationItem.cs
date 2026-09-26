@@ -2,9 +2,7 @@
 
 public class NavigationItem
 {
-    public string Title { get; set; }
+    public required string Title { get; set; }
     
-    public string IconGlyph { get; set; }
-    
-    public Type TargetPageType { get; set; }
+    public required Type TargetPageType { get; set; }
 }

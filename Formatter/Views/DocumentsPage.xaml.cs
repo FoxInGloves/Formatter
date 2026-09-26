@@ -10,14 +10,14 @@ namespace Formatter.Views;
 /// <summary>
 /// The main content page displayed inside the application window.
 /// </summary>
-public sealed partial class NoticePage : Page
+public sealed partial class DocumentsPage : Page
 {
-    public NoticePageViewModel ViewModel { get; }
+    public DocumentsPageViewModel ViewModel { get; }
 
-    public NoticePage()
+    public DocumentsPage()
     {
         InitializeComponent();
         
-        ViewModel = App.Services.GetRequiredService<NoticePageViewModel>();
+        ViewModel = App.Services.GetRequiredService<DocumentsPageViewModel>();
     }
 }

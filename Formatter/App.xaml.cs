@@ -5,6 +5,8 @@ using Formatter.ViewModels;
 using Formatter.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Serilog;
+using Serilog.Events;
 using LaunchActivatedEventArgs = Microsoft.UI.Xaml.LaunchActivatedEventArgs;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -47,10 +49,20 @@ public partial class App : Application
     {
         InitializeComponent();
 
+        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .WriteTo.File($"Logs\\log.txt",
+                rollingInterval: RollingInterval.Day,
+                retainedFileCountLimit: 7,
+                outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}",
+                restrictedToMinimumLevel: LogEventLevel.Information)
+            .CreateLogger();
+        
         var serviceCollection = new ServiceCollection();
         
         serviceCollection.AddTransient<MainWindowViewModel>();
-        serviceCollection.AddTransient<NoticePageViewModel>();
+        serviceCollection.AddTransient<DocumentsPageViewModel>();
         serviceCollection.AddTransient<SettingsPageViewModel>();
         
         serviceCollection.AddSingleton<INavigationService, NavigationService>();

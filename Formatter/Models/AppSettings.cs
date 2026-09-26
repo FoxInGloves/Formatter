@@ -2,5 +2,5 @@
 
 public class AppSettings
 {
-    public string PathForSaveDocument { get; set; }
+    public string? PathForSaveDocument { get; set; }
 }

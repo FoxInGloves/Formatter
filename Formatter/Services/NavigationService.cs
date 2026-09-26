@@ -26,11 +26,9 @@ public class NavigationService : INavigationService
 
     public bool GoBack()
     {
-        if (CanGoBack)
-        {
-            _frame?.GoBack();
-            return true;
-        }
-        return false;
+        if (!CanGoBack) return false;
+        
+        _frame?.GoBack();
+        return true;
     }
 }
